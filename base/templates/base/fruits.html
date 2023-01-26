@@ -1,0 +1,43 @@
+{% extends "base/index.html" %}
+
+{% block fruits %}
+    <div>りんご、ぶどう、みかんを判別します</div>
+
+    <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <input type="hidden">
+        <div>
+            <input type="file" name="inputimg" id="form" accept=".jpg, .jpeg, .png, .gif">
+        </div>
+        <div style="text-align: center;">
+            <input type="submit" value="判別する">
+        </div>
+    </form>
+
+    <div id="fruits">
+        {% if fruits == "apple" %}
+            りんご
+        {% endif %}
+        {% if fruits == "grape" %}
+            ぶどう
+        {% endif %}
+        {% if fruits == "orange" %}
+            みかん
+        {% endif %}
+
+    </div>
+
+    <img id="img" accept="image/*" src="{{ img }}" width="300" height="200" style="visibility: hidden;">
+
+    <script>
+        $('#form').on('change', function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $("#img").attr('src', e.target.result);
+                $("#img").get(0).style.visibility = "visible"
+                $("#fruits").get(0).style.visibility = "hidden"
+            }
+            reader.readAsDataURL(e.target.files[0]);
+        });
+    </script>
+
+{% endblock fruits %}
